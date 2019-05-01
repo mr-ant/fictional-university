@@ -10,6 +10,7 @@ function meow_files(){
 add_action( 'wp_enqueue_scripts', 'meow_files' );
 
 function taotaomeow_features() {
+    register_nav_menu( 'headerMenuLocation', 'Header Menu Location');
     add_theme_support( 'title-tag' );
 }
 
