@@ -15,7 +15,7 @@
         <nav class="nav-list">
           <ul>
             <li><a href="<?php echo site_url('/about-us'); ?>">About Us</a></li>
-            <?php site_url( ); ?>
+            <?php site_url();?>
             <li><a href="#">Programs</a></li>
             <li><a href="#">Events</a></li>
             <li><a href="#">Campuses</a></li>
@@ -51,6 +51,6 @@
 
 </div>
 </footer>
-    <?php wp_footer(  );?>
+    <?php wp_footer();?>
 </body>
 </html>
