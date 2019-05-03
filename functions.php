@@ -18,6 +18,26 @@ function taotaomeow_features()
 
 add_action('after_setup_theme', 'taotaomeow_features');
 
+function taotaomeow_adjust_queries($query)
+{
+    if (!is_admin() and is_post_type_archive('event') and $query->is_main_query()) {
+        $today = date('Ymd');
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(
+            array(
+                'key' => 'event_date',
+                'compare' => '>=',
+                'value' => $today,
+                'type' => 'numeric'  // 指定比较的类型
+            )
+        ));
+    }
+}
+
+add_action('pre_get_posts', 'taotaomeow_adjust_queries');
+
 // 自定义文章类型
 
 function ttm_post_types()
