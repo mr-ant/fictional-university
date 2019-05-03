@@ -14,6 +14,9 @@ function taotaomeow_features()
 {
     register_nav_menu('headerMenuLocation', 'Header Menu Location');
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_image_size('professorLandscape', 400, 260, true);
+    add_image_size('professorPortrait', 480, 650, true);
 }
 
 add_action('after_setup_theme', 'taotaomeow_features');
@@ -83,7 +86,7 @@ function ttm_post_types()
 
     // Professor Post Type
     register_post_type('professor', array(
-        'supports' => array('title', 'editor'),
+        'supports' => array('title', 'editor', 'thumbnail'),
         'public' => true,
         'labels' => array(
             'name' => 'Professors',
