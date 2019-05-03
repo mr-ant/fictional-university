@@ -20,6 +20,12 @@ add_action('after_setup_theme', 'taotaomeow_features');
 
 function taotaomeow_adjust_queries($query)
 {
+    if (!is_admin() and is_post_type_archive('program') and $query->is_main_query()) {
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', -1);
+    }
+
     if (!is_admin() and is_post_type_archive('event') and $query->is_main_query()) {
         $today = date('Ymd');
         $query->set('meta_key', 'event_date');
@@ -43,18 +49,36 @@ add_action('pre_get_posts', 'taotaomeow_adjust_queries');
 function ttm_post_types()
 {
     register_post_type('event', array(
-        'supports' => array('title', 'editor', 'excerpt', 'custom-fields'),
+        'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug' => 'events'),
         'has_archive' => true,
         'public' => true,
         'labels' => array(
             'name' => 'Events',
+            'add_new' => 'Add Event',
             'add_new_item' => 'Add New Event',
             'edit_item' => 'Edit Event',
             'all_items' => 'All Events',
             'singular_name' => 'Event'
         ),
         'menu_icon' => 'dashicons-calendar'
+    ));
+
+    // Program Post Type
+    register_post_type('program', array(
+        'supports' => array('title', 'editor'),
+        'rewrite' => array('slug' => 'programs'),
+        'has_archive' => true,
+        'public' => true,
+        'labels' => array(
+            'name' => 'Programs',
+            'add_new' => 'Add Program',
+            'add_new_item' => 'Add New Program',
+            'edit_item' => 'Edit Program',
+            'all_items' => 'All Programs',
+            'singular_name' => 'Program'
+        ),
+        'menu_icon' => 'dashicons-awards'
     ));
 }
 
