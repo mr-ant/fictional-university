@@ -1,5 +1,6 @@
 {
-    "php.executablePath": "D:\\Program Files\\php-7.3.5-Win32-VC15-x64\\php.exe",
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
     // "phpfmt.php_bin": "\"D:\\Program Files\\php-7.3.5-Win32-VC15-x64\\php.exe\"",
     // "php-cs-fixer.executablePath": "D:\\Program Files\\php-7.3.5-Win32-VC15-x64\\php-cs-fixer-v2.phar"
 }
