@@ -31,6 +31,7 @@ function pageBanner($args = null)
 function meow_files()
 {
     wp_enqueue_script('main-taotaomeow-js', get_theme_file_uri('/js/scripts-bundled.js'), null, microtime(), true);
+    wp_enqueue_script('google-maps', '//maps.googleapis.com/map/api/js?key=AIzaSyBwqj7wQHBk6TQ3dKBDFhNCX983mjurYVw', null, '1.0', true);
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
     wp_enqueue_style('font-awesome', '//cdn.bootcss.com/font-awesome/5.8.1/css/all.css');
     wp_enqueue_style('taotaomeow', get_stylesheet_uri(), null, microtime());
@@ -52,6 +53,10 @@ add_action('after_setup_theme', 'taotaomeow_features');
 
 function taotaomeow_adjust_queries($query)
 {
+    if (!is_admin() and is_post_type_archive('campus') and $query->is_main_query()) {
+        $query->set('posts_per_page', 1);
+    }
+
     if (!is_admin() and is_post_type_archive('program') and $query->is_main_query()) {
         $query->set('orderby', 'title');
         $query->set('order', 'ASC');
@@ -76,10 +81,39 @@ function taotaomeow_adjust_queries($query)
 
 add_action('pre_get_posts', 'taotaomeow_adjust_queries');
 
+function my_acf_google_map_api($api)
+{
+
+    $api['key'] = 'AIzaSyBwqj7wQHBk6TQ3dKBDFhNCX983mjurYVw';
+
+    return $api;
+}
+
+add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
+
 // 自定义文章类型
 
 function ttm_post_types()
 {
+    // Campus Post Type
+    register_post_type('campus', array(
+        'supports' => array('title', 'editor', 'excerpt'),
+        'rewrite' => array('slug' => 'campuses'),
+        'has_archive' => true,
+        'public' => true,
+        'labels' => array(
+            'name' => 'Campuses',
+            'add_new' => 'Add Campus',
+            'add_new_item' => 'Add New Campus',
+            'edit_item' => 'Edit Campus',
+            'all_items' => 'All Campuses',
+            'singular_name' => 'Campus'
+        ),
+        'menu_icon' => 'dashicons-location-alt'
+    ));
+
+
+    // Event Post Type
     register_post_type('event', array(
         'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug' => 'events'),
