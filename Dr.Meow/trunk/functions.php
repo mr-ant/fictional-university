@@ -1,5 +1,7 @@
 <?php
 
+require get_theme_file_path('/inc/search-route.php');
+
 function taotaomeow_custom_rest()
 {
     register_rest_field('post', 'authorName', array(
@@ -111,6 +113,7 @@ function ttm_post_types()
 {
     // Campus Post Type
     register_post_type('campus', array(
+        'show_in_rest' => true,
         'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug' => 'campuses'),
         'has_archive' => true,
@@ -129,6 +132,7 @@ function ttm_post_types()
 
     // Event Post Type
     register_post_type('event', array(
+        'show_in_rest' => true,
         'supports' => array('title', 'editor', 'excerpt'),
         'rewrite' => array('slug' => 'events'),
         'has_archive' => true,
@@ -146,6 +150,7 @@ function ttm_post_types()
 
     // Program Post Type
     register_post_type('program', array(
+        'show_in_rest' => true,
         'supports' => array('title', 'editor'),
         'rewrite' => array('slug' => 'programs'),
         'has_archive' => true,
@@ -163,6 +168,7 @@ function ttm_post_types()
 
     // Professor Post Type
     register_post_type('professor', array(
+        'show_in_rest' => true,
         'supports' => array('title', 'editor', 'thumbnail'),
         'public' => true,
         'labels' => array(
