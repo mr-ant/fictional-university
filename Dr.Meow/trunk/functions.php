@@ -1,5 +1,16 @@
 <?php
 
+function taotaomeow_custom_rest()
+{
+    register_rest_field('post', 'authorName', array(
+        'get_callback' => function () {
+            return get_the_author();
+        }
+    ));
+}
+
+add_action('rest_api_init', 'taotaomeow_custom_rest');
+
 function pageBanner($args = null)
 {
     if (!$args['title']) {
@@ -31,7 +42,7 @@ function pageBanner($args = null)
 function meow_files()
 {
     wp_enqueue_script('main-taotaomeow-js', get_theme_file_uri('/js/scripts-bundled.js'), null, microtime(), true);
-    wp_enqueue_script('google-maps', '//maps.googleapis.com/map/api/js?key=AIzaSyBwqj7wQHBk6TQ3dKBDFhNCX983mjurYVw', null, '1.0', true);
+    //wp_enqueue_script('google-maps', '//maps.googleapis.com/map/api/js?key=AIzaSyBwqj7wQHBk6TQ3dKBDFhNCX983mjurYVw', null, '1.0', true);
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
     wp_enqueue_style('font-awesome', '//cdn.bootcss.com/font-awesome/5.8.1/css/all.css');
     wp_enqueue_style('taotaomeow', get_stylesheet_uri(), null, microtime());
@@ -167,3 +178,276 @@ function ttm_post_types()
 }
 
 add_action('init', 'ttm_post_types');
+
+
+// Advanced fileds section
+
+if (function_exists('acf_add_local_field_group')) :
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5ccc135d781a6',
+        'title' => 'Event Date',
+        'fields' => array(
+            array(
+                'key' => 'field_5ccc136f92661',
+                'label' => 'Event Date',
+                'name' => 'event_date',
+                'type' => 'date_picker',
+                'instructions' => '',
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'display_format' => 'd/m/Y',
+                'return_format' => 'Ymd',
+                'first_day' => 1,
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'event',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5cccdd9650c55',
+        'title' => 'Map Location',
+        'fields' => array(
+            array(
+                'key' => 'field_5cccdda411ae7',
+                'label' => 'Map Location',
+                'name' => 'map_location',
+                'type' => 'google_map',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'center_lat' => '',
+                'center_lng' => '',
+                'zoom' => '',
+                'height' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'campus',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5ccc37a6ecd8e',
+        'title' => 'Page Banner',
+        'fields' => array(
+            array(
+                'key' => 'field_5ccc37c060b26',
+                'label' => 'Page Banner Subtitle',
+                'name' => 'page_banner_subtitle',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+            ),
+            array(
+                'key' => 'field_5ccc37df60b27',
+                'label' => 'Page Banner Background Image',
+                'name' => 'page_banner_background_image',
+                'type' => 'image',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+                'library' => 'all',
+                'min_width' => '',
+                'min_height' => '',
+                'min_size' => '',
+                'max_width' => '',
+                'max_height' => '',
+                'max_size' => '',
+                'mime_types' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'post',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '!=',
+                    'value' => 'post',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5ccd12f3d8419',
+        'title' => 'Related Campus(es)',
+        'fields' => array(
+            array(
+                'key' => 'field_5ccd13061051c',
+                'label' => 'Related Campus(es)',
+                'name' => 'related_campus',
+                'type' => 'relationship',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'post_type' => array(
+                    0 => 'campus',
+                ),
+                'taxonomy' => '',
+                'filters' => array(
+                    0 => 'search',
+                    1 => 'post_type',
+                    2 => 'taxonomy',
+                ),
+                'elements' => '',
+                'min' => '',
+                'max' => '',
+                'return_format' => 'object',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'program',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5ccc139eb4513',
+        'title' => 'Related Program',
+        'fields' => array(
+            array(
+                'key' => 'field_5ccc13b4ccfd2',
+                'label' => 'Related Program(s)',
+                'name' => 'related_programs',
+                'type' => 'relationship',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'post_type' => array(
+                    0 => 'program',
+                ),
+                'taxonomy' => '',
+                'filters' => array(
+                    0 => 'search',
+                    1 => 'post_type',
+                    2 => 'taxonomy',
+                ),
+                'elements' => '',
+                'min' => '',
+                'max' => '',
+                'return_format' => 'object',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'event',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'professor',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+endif;
