@@ -121,6 +121,7 @@ class Search {
         setTimeout(() => this.searchField.focus(), 301);
         console.log("our open method just ran!");
         this.isOvenlayOpen = true;
+        return false
     }
 
     closeOverlay() {
