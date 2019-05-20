@@ -1,5 +1,5 @@
-exports.themeLocation = './';
-exports.urlToPreview = 'http://ttm.local';
+exports.themeLocation = './Dr.Meow/trunk/';
+exports.urlToPreview = 'http://ttmeow.local';
 
 // If you're using Local by Flywheel you will
 // want your settings to be similar to the examples below:
