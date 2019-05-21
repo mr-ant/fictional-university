@@ -504,3 +504,28 @@ if (function_exists('acf_add_local_field_group')) :
     ));
 
 endif;
+
+
+// redirect subscribe user to home page.
+
+add_action('admin_init', 'redirectSubsToHomePage');
+
+function redirectSubsToHomePage()
+{
+    $currentUser = wp_get_current_user();
+    if (count($currentUser->roles) == 1 and $currentUser->roles[0] == 'subscriber') {
+        wp_redirect(site_url('/'));
+        exit;
+    }
+}
+
+
+add_action('wp_loaded', 'removeSubsAdminBar');
+
+function removeSubsAdminBar()
+{
+    $currentUser = wp_get_current_user();
+    if (count($currentUser->roles) == 1 and $currentUser->roles[0] == 'subscriber') {
+        show_admin_bar(false);
+    }
+}
