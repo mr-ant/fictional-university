@@ -10,7 +10,7 @@ class Search {
         this.searchOverlay = $(".search-overlay");
         this.searchField = $("#search-term");
         this.events();
-        this.isOvenlayOpen = false;
+        this.isOverlayOpen = false;
         this.isSpinnerVisible = false;
         this.previousValue;
         this.typingTimer;
@@ -105,11 +105,11 @@ class Search {
     }
 
     keyPressDispatcher(e) {
-        if (e.keyCode == 83 && !this.isOvenlayOpen && !$("input, textarea").is(':focus')) {
+        if (e.keyCode == 83 && !this.isOverlayOpen && !$("input, textarea").is(':focus')) {
             this.openOverlay();
         }
 
-        if (e.keyCode == 27 && this.isOvenlayOpen && !$("input, textarea").is(':focus')) {
+        if (e.keyCode == 27 && this.isOverlayOpen && !$("input, textarea").is(':focus')) {
             this.closeOverlay();
         }
     }
@@ -120,7 +120,7 @@ class Search {
         this.searchField.val('');
         setTimeout(() => this.searchField.focus(), 301);
         console.log("our open method just ran!");
-        this.isOvenlayOpen = true;
+        this.isOverlayOpen = true;
         return false
     }
 
@@ -128,7 +128,7 @@ class Search {
         this.searchOverlay.removeClass("search-overlay--active");
         $("body").removeClass("body-no-scroll");
         console.log("our close method just ran!");
-        this.isOvenlayOpen = false;
+        this.isOverlayOpen = false;
     }
 
     addSearchHTML() {
