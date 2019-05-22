@@ -49,7 +49,8 @@ function meow_files()
     wp_enqueue_style('font-awesome', '//cdn.bootcss.com/font-awesome/5.8.1/css/all.css');
     wp_enqueue_style('taotaomeow', get_stylesheet_uri(), null, microtime());
     wp_localize_script("main-taotaomeow-js", 'meowData', array(
-        'root_url' => get_site_url()
+        'root_url' => get_site_url(),
+        'nonce' => wp_create_nonce('wp_rest')
     ));
 }
 
