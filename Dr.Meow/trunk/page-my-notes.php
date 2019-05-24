@@ -32,10 +32,10 @@ while (have_posts()) {
             while ($userNotes->have_posts()) {
                 $userNotes->the_post(); ?>
                 <li data-id="<?php the_ID(); ?>">
-                    <input readonly class="note-title-field" value="<?php echo esc_attr(get_the_title()); ?>">
+                    <input readonly class="note-title-field" value="<?php echo str_replace("私密：", "", esc_attr(get_the_title())); ?>">
                     <span class="edit-note"><i class="fas fa-edit" aria-hidden="true"></i> Edit</span>
                     <span class="delete-note"><i class="fas fa-trash-alt" aria-hidden="true"></i> Delete</span>
-                    <textarea readonly class="note-body-field"><?php echo esc_attr(get_the_content()); ?></textarea>
+                    <textarea readonly class="note-body-field"><?php echo esc_textarea(get_the_content()); ?></textarea>
                     <span class="update-note btn btn--blue btn--small"><i class="fas fa-arrow-right" aria-hidden="true"></i> Save </span>
                 </li>
             <?php }

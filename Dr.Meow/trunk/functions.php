@@ -186,6 +186,8 @@ function ttm_post_types()
 
     // Note Post Type
     register_post_type('note', array(
+        'capability_type' => 'note',
+        'map_meta_cap' => true,
         'show_in_rest' => true,
         'supports' => array('title', 'editor', 'author'),
         'public' => false,
@@ -565,4 +567,21 @@ add_filter('login_headertitle', 'ourLoginTitle');
 function ourLoginTitle()
 {
     return get_bloginfo('name');
+}
+
+
+// Force note posts to be private
+add_filter('wp_insert_post_data', 'makeNotePrivate');
+
+function makeNotePrivate($data)
+{
+    if ($data['post_type'] == 'note') {
+        $data['post_title'] = sanitize_textarea_field($data['post_title']);
+        $data['post_content'] = sanitize_text_field($data['post_content']);
+    }
+
+    if ($data['post_type'] == 'note' and $data['post_status'] != 'trash') {
+        $data['post_status'] = 'private';
+    }
+    return $data;
 }
