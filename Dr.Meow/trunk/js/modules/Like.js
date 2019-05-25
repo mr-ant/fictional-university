@@ -22,6 +22,9 @@ class Like {
 
     creatLike(currentLikeBox) {
         $.ajax({
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader('X-WP-NONCE', meowData.nonce);
+            },
             url: meowData.root_url + '/wp-json/university/v1/manageLike',
             type: 'POST',
             data: { 'professorID': currentLikeBox.data("professor") },
