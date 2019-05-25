@@ -8,6 +8,7 @@ function universityLikeRoutes()
         'methods' => WP_REST_SERVER::CREATABLE,
         'callback' => 'createLike'
     ));
+
     register_rest_route('university/v1', 'manageLike', array(
         'methods' => WP_REST_SERVER::DELETABLE,
         'callback' => 'deleteLike'
@@ -17,7 +18,7 @@ function universityLikeRoutes()
 function createLike($data)
 {
     if (is_user_logged_in()) {
-        $professor = sanitize_text_field($data['professorID']);
+        $professor = sanitize_text_field($data['professorId']);
 
         $existQuery = new WP_Query(array(
             'author' => get_current_user_id(),
@@ -31,30 +32,32 @@ function createLike($data)
             )
         ));
 
+        $likeTitle = get_post_field('post_title', $professor);
+        $displayName = get_the_author_meta('display_name', get_current_user_id());
 
         if ($existQuery->found_posts == 0 and get_post_type($professor) == 'professor') {
             return wp_insert_post(array(
                 'post_type' => 'like',
                 'post_status' => 'publish',
-                'post_title' => 'php title test..',
+                'post_title' => $displayName . ' liked ' . $likeTitle,
                 'meta_input' => array(
                     'liked_professor_id' => $professor
                 )
             ));
         } else {
-            die("Invalid professor ID.");
+            die("Invalid professor id");
         }
     } else {
-        die("You must loged in to like a professor.");
+        die("Only logged in users can create a like.");
     }
 }
 
 function deleteLike($data)
 {
-    $likeID = sanitize_text_field($data['like']);
-    if (get_current_user_id() == get_post_field('post_author', $likeID) and get_post_type($likeID) == 'like') {
-        wp_delete_post($likeID, true);
-        return "congrats, like deleted.";
+    $likeId = sanitize_text_field($data['like']);
+    if (get_current_user_id() == get_post_field('post_author', $likeId) and get_post_type($likeId) == 'like') {
+        wp_delete_post($likeId, true);
+        return 'Congrats, like deleted.';
     } else {
         die("You do not have permission to delete that.");
     }
