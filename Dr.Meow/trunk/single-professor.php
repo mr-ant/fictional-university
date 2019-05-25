@@ -12,7 +12,45 @@ while (have_posts()) {
         <div class="generic-content">
             <div class="row group">
                 <div class="one-third"><?php the_post_thumbnail('professorPortrait'); ?></div>
-                <div class="two-third"><?php the_content(); ?></div>
+                <div class="two-third">
+
+                    <?php
+                    $likeCount = new WP_Query(array(
+                        'post_type' => 'like',
+                        'meta_query' => array(
+                            array(
+                                'key' => 'liked_professor_id',
+                                'compare' => '=',
+                                'value' => get_the_ID()
+                            )
+                        )
+                    ));
+
+                    $hasLikes = "no";
+                    $existQuery = new WP_Query(array(
+                        'authou' => get_current_user_id(),
+                        'post_type' => 'like',
+                        'meta_query' => array(
+                            array(
+                                'key' => 'liked_professor_id',
+                                'compare' => '=',
+                                'value' => get_the_ID()
+                            )
+                        )
+                    ));
+
+                    if ($existQuery->found_posts) {
+                        $hasLikes = "yes";
+                    }
+
+                    ?>
+                    <span class="like-box" data-exists="<?php echo $hasLikes; ?>">
+                        <i class="fas fa-heart"></i>
+                        <i class="far fa-heart"></i>
+                        <span class="like-count"><?php echo $likeCount->found_posts; ?></span>
+                    </span>
+                    <?php the_content(); ?>
+                </div>
             </div>
         </div>
 

@@ -52,7 +52,7 @@ function meow_files()
     wp_enqueue_script('main-taotaomeow-js', get_theme_file_uri('/js/scripts-bundled.js'), null, microtime(), true);
     //wp_enqueue_script('google-maps', '//maps.googleapis.com/map/api/js?key=AIzaSyBwqj7wQHBk6TQ3dKBDFhNCX983mjurYVw', null, '1.0', true);
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
-    wp_enqueue_style('font-awesome', '//cdn.bootcss.com/font-awesome/5.8.1/css/all.css');
+    wp_enqueue_style('font-awesome', '//cdn.bootcss.com/font-awesome/5.8.2/css/all.css');
     wp_enqueue_style('taotaomeow', get_stylesheet_uri(), null, microtime());
     wp_localize_script("main-taotaomeow-js", 'meowData', array(
         'root_url' => get_site_url(),
@@ -207,6 +207,22 @@ function ttm_post_types()
             'singular_name' => 'Note'
         ),
         'menu_icon' => 'dashicons-welcome-write-blog'
+    ));
+
+    // Like Post Type
+    register_post_type('like', array(
+        'supports' => array('title'),
+        'public' => false,
+        'show_ui' => true,
+        'labels' => array(
+            'name' => 'Likes',
+            'add_new' => 'Add Like',
+            'add_new_item' => 'Add New Like',
+            'edit_item' => 'Edit Like',
+            'all_items' => 'All Likes',
+            'singular_name' => 'Like'
+        ),
+        'menu_icon' => 'dashicons-heart'
     ));
 }
 
@@ -513,6 +529,51 @@ if (function_exists('acf_add_local_field_group')) :
                     'param' => 'post_type',
                     'operator' => '==',
                     'value' => 'professor',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5ce921fb190d2',
+        'title' => 'Liked Professor ID',
+        'fields' => array(
+            array(
+                'key' => 'field_5ce922128ac38',
+                'label' => 'Liked Professor ID',
+                'name' => 'liked_professor_id',
+                'type' => 'number',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'min' => '',
+                'max' => '',
+                'step' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'like',
                 ),
             ),
         ),
