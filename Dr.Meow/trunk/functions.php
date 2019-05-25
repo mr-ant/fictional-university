@@ -212,7 +212,7 @@ function ttm_post_types()
 
     // Like Post Type
     register_post_type('like', array(
-        'supports' => array('title'),
+        'supports' => array('title', 'author'),
         'public' => false,
         'show_ui' => true,
         'labels' => array(
